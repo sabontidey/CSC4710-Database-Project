@@ -1,41 +1,119 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="stylesheet.css">
-  <title>DB Project 1 new</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>User Management System</title>
 </head>
-<body>
-  <main>
-      <label>Name:</label>
-      <input type="text" id="name-input">
-      <button id="add-name-btn">Add Name</button>
- 
-     <br><br><br>
-     <div> 
-        <input placeholder="search by name" id="search-input">
-        <button id="search-btn">Search</button>
-     </div>
 
+<body class="dashboard-page">
 
-     <table id="table">
-         <thead>
-             <th>Id</th>
-             <th>Name</th>
-             <th>Date Added</th>
-             <th>Delete</th>
-             <th>Edit</th>  
-         </thead>
-         <tbody></tbody>
-     </table>
+    <div class="dashboard-layout">
 
-     <section hidden id="update-row">
-         <label>Name:</label>
-         <input type="text" id="update-name-input">
-         <button id="update-row-btn" value="">Update</button>
-    </section>
-</main>
-<script src="index.js"></script>
+        <!-- SIDEBAR -->
+        <nav class="dashboard-sidebar">
+            <div class="sidebar-brand">
+                <h2>UserHub</h2>
+                <p>User Management System</p>
+            </div>
+
+            <a href="index.html" class="active">⌂ &nbsp; Dashboard</a>
+            <a href="register.html">＋ &nbsp; Register</a>
+            <a href="login.html">↪ &nbsp; Login</a>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-main">
+
+            <!-- WELCOME HEADER -->
+            <header class="dashboard-header">
+                <div>
+                    <p class="eyebrow">USER MANAGEMENT</p>
+                    <h1>Welcome to UserHub</h1>
+                    <p>Manage records and search information in one place.</p>
+                </div>
+                <div class="header-tag">Database Project</div>
+            </header>
+
+            <!-- QUICK ACCESS -->
+            <div class="quick-links">
+                <a href="register.html" class="quick-card">
+                    <span class="quick-icon">＋</span>
+                    <div>
+                        <h3>Create Account</h3>
+                        <p>Register a new user</p>
+                    </div>
+                </a>
+
+                <a href="login.html" class="quick-card">
+                    <span class="quick-icon">↪</span>
+                    <div>
+                        <h3>Sign In</h3>
+                        <p>Access your account</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ADD NAME -->
+            <section class="dashboard-section">
+                <div class="section-heading">
+                    <h2>Add a Record</h2>
+                    <p>Add a name to the sample database table.</p>
+                </div>
+
+                <div class="record-controls">
+                    <div>
+                        <label for="name-input">Name</label>
+                        <input type="text" id="name-input"
+                               placeholder="Enter a name">
+                    </div>
+                    <button id="add-name-btn">Add Name</button>
+                </div>
+            </section>
+
+            <!-- SEARCH AND TABLE -->
+            <section class="dashboard-section">
+                <div class="section-heading">
+                    <h2>Records</h2>
+                    <p>Search and manage existing name records.</p>
+                </div>
+
+                <div class="record-controls">
+                    <input
+                        type="text"
+                        placeholder="Search by name"
+                        id="search-input"
+                    >
+                    <button id="search-btn">Search</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Date Added</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <section hidden id="update-row">
+                    <label for="update-name-input">Name:</label>
+                    <input type="text" id="update-name-input">
+                    <button id="update-row-btn" value="">Update</button>
+                </section>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>

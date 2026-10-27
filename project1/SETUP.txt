@@ -1,0 +1,40 @@
+
+CSC 4710 - Project Setup Instructions
+
+1. Install and open XAMPP.
+2. Start Apache and MySQL.
+3. Open phpMyAdmin.
+4. Create a database named web_app.
+5. Run the CREATE TABLE statement from sql.txt.
+   If the Users table already exists, compare its
+   columns before making changes.
+
+6. Open the Backend folder in VS Code.
+
+7. Run:
+   npm install
+
+8. Create a .env file inside Backend with:
+
+   PORT=5050
+   DB_USER=root
+   PASSWORD=
+   DATABASE=web_app
+   DB_PORT=3306
+   HOST=localhost
+
+   Update these values if your local setup differs.
+
+9. Start the backend:
+   npm start
+
+10. Open Frontend/register.html to register.
+11. Open Frontend/login.html to log in.
+
+Notes:
+- Passwords are hashed using bcrypt.
+- The database column is password_hash.
+- Successful login updates signintime.
+- The frontend connects to localhost:5050.
+- Login redirect still needs final testing.
+- Never commit your .env file to GitHub.

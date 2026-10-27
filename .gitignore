@@ -1,0 +1,18 @@
+
+# Environment configuration
+.env
+.env.*
+!.env.example
+
+# Installed packages
+node_modules/
+
+# Local sharing copies
+Sabonti_Project_Share/
+Sabonti_Project_Share.zip
+
+# System files
+.DS_Store
+Thumbs.db
+/Sabonti_Project_Share/
+/Sabonti_Project_Share.zip

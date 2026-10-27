@@ -1,0 +1,36 @@
+
+-- CSC 4710 Project
+-- Registration and Login SQL
+
+CREATE DATABASE IF NOT EXISTS web_app;
+
+USE web_app;
+
+CREATE TABLE IF NOT EXISTS Users (
+    username VARCHAR(50) PRIMARY KEY,
+    password_hash VARCHAR(255) NOT NULL,
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    salary DECIMAL(12,2),
+    age INTEGER,
+    registerday DATETIME DEFAULT CURRENT_TIMESTAMP,
+    signintime DATETIME DEFAULT NULL
+);
+
+-- Queries below are used in Node.js with parameters.
+-- Do not run these directly in phpMyAdmin.
+
+-- Register user
+INSERT INTO Users
+(username, password_hash, firstname, lastname, salary, age)
+VALUES (?, ?, ?, ?, ?, ?);
+
+-- Find user for login
+SELECT username, password_hash
+FROM Users
+WHERE username = ?;
+
+-- Update successful login time
+UPDATE Users
+SET signintime = NOW()
+WHERE username = ?;
