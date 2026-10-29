@@ -205,9 +205,20 @@ class DbService {
         });
     }
 
+    // Run a search query using the existing MySQL connection
+    async runSearch(query, parameters = []) {
+        return new Promise((resolve, reject) => {
+            connection.query(query, parameters, (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
     }
 
-    
 
+    }
 
 module.exports = DbService;

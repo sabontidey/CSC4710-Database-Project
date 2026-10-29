@@ -256,6 +256,229 @@ app.get('/testdb', async (request, response) => {
     }
 });
 
+
+ // Search 1: Find users by first name or last name
+ app.get('/api/search/name', async (request, response) => {
+    try {
+        const { firstname, lastname } = request.query;
+
+        if (!firstname && !lastname) {
+            return response.status(400).json({
+                error: 'Enter a first name or last name'
+            });
+        }
+
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age,
+                    registerday, signintime
+             FROM Users
+             WHERE firstname = ? OR lastname = ?`,
+            [firstname || '', lastname || '']
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 2: Find a user by username
+ app.get('/api/search/user', async (request, response) => {
+    try {
+        const { username } = request.query;
+
+        if (!username) {
+            return response.status(400).json({
+                error: 'Please enter a username'
+            });
+        }
+
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age,
+                    registerday, signintime
+             FROM Users
+             WHERE username = ?`,
+            [username]
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 3: Find users within a salary range
+ app.get('/api/search/salary', async (request, response) => {
+    try {
+        const { min, max } = request.query;
+
+        if (
+            typeof min !== 'string' ||
+            typeof max !== 'string' ||
+            min.trim() === '' ||
+            max.trim() === '' ||
+            !Number.isFinite(Number(min)) ||
+            !Number.isFinite(Number(max)) ||
+            Number(min) < 0 ||
+            Number(min) > Number(max)
+        ) {
+            return response.status(400).json({
+                error: 'Enter a valid minimum and maximum salary'
+            });
+        }
+
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age,
+                    registerday, signintime
+             FROM Users
+             WHERE salary BETWEEN ? AND ?
+             ORDER BY salary`,
+            [Number(min), Number(max)]
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 4: Find users within an age range
+ app.get('/api/search/age', async (request, response) => {
+    try {
+        const { min, max } = request.query;
+
+        if (
+            typeof min !== 'string' ||
+            typeof max !== 'string' ||
+            min.trim() === '' ||
+            max.trim() === '' ||
+            !Number.isInteger(Number(min)) ||
+            !Number.isInteger(Number(max)) ||
+            Number(min) < 0 ||
+            Number(min) > Number(max)
+        ) {
+            return response.status(400).json({
+                error: 'Enter a valid minimum and maximum age'
+            });
+        }
+
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age,
+                    registerday, signintime
+             FROM Users
+             WHERE age BETWEEN ? AND ?
+             ORDER BY age`,
+            [Number(min), Number(max)]
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 5: Users registered after John
+ app.get('/api/search/after-john', async (request, response) => {
+    try {
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age, registerday, signintime
+             FROM Users
+             WHERE registerday > (
+                 SELECT registerday
+                 FROM Users
+                 WHERE username = ?
+             )
+             ORDER BY registerday`,
+            ['testuser3']
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 6: Users who have never signed in
+ app.get('/api/search/never-signed-in', async (request, response) => {
+    try {
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age, registerday, signintime
+             FROM Users
+             WHERE signintime IS NULL
+             ORDER BY username`
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 7: Users registered on the same day as John
+ app.get('/api/search/same-day-john', async (request, response) => {
+    try {
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age, registerday, signintime
+             FROM Users
+             WHERE DATE(registerday) = (
+                 SELECT DATE(registerday)
+                 FROM Users
+                 WHERE username = ?
+             )
+             AND username <> ?
+             ORDER BY username`,
+            ['testuser3', 'testuser3']
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+ // Search 8: Users registered today
+ app.get('/api/search/today', async (request, response) => {
+    try {
+        const db = dbService.getDbServiceInstance();
+
+        const rows = await db.runSearch(
+            `SELECT username, firstname, lastname, salary, age, registerday, signintime
+             FROM Users
+             WHERE registerday >= CURDATE()
+               AND registerday < CURDATE() + INTERVAL 1 DAY
+             ORDER BY username`
+        );
+
+        response.json(rows);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: 'Search failed' });
+    }
+});
+
+
+
 // =====================================
 // START SERVER
 // =====================================

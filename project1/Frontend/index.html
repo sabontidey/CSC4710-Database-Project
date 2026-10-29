@@ -110,6 +110,60 @@
                     <button id="update-row-btn" value="">Update</button>
                 </section>
             </section>
+            
+<!-- USER SEARCH SECTION -->
+<section class="dashboard-section">
+    <div class="section-heading">
+        <h2>User Search</h2>
+        <p>Search registered users in the database.</p>
+    </div>
+
+    <div class="record-controls">
+        <label for="user-search-type">Search Type</label>
+        <select id="user-search-type">
+            <option value="name">First or Last Name</option>
+            <option value="user">Username</option>
+            <option value="salary">Salary Range</option>
+            <option value="age">Age Range</option>
+            <option value="after-john">Registered After John</option>
+            <option value="never-signed-in">Never Signed In</option>
+            <option value="same-day-john">Same Day as John</option>
+            <option value="today">Registered Today</option>
+        </select>
+
+        <input id="user-search-value1"
+               type="text"
+               style="width: 150px; min-width: 150px;"
+               placeholder="First name, username, or minimum value">
+
+        <input id="user-search-value2"
+               type="text"
+               style="width: 150px; min-width: 150px;"
+               placeholder="Last name or maximum value">
+
+        <button id="user-search-btn">Search Users</button>
+    </div>
+
+    <p id="user-search-message"></p>
+
+    <div class="table-wrapper">
+        <table id="user-search-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Salary</th>
+                    <th>Age</th>
+                    <th>Registered</th>
+                    <th>Last Sign In</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</section>
+    
 
         </main>
     </div>

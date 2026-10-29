@@ -290,3 +290,453 @@ function loadHTMLTable(data){
 
     table.innerHTML = tableHtml;
 }
+
+
+// =====================================
+// USER SEARCH - SEARCH 1
+// First name or last name
+// =====================================
+
+const userSearchBtn = document.querySelector('#user-search-btn');
+
+userSearchBtn.addEventListener('click', async function () {
+    const searchType = document.querySelector('#user-search-type').value;
+
+    if (searchType === 'user') {
+        const username = document.querySelector('#user-search-value1').value.trim();
+        const message = document.querySelector('#user-search-message');
+    
+        if (!username) {
+            message.textContent = 'Please enter a username.';
+            return;
+        }
+    
+        try {
+            const response = await fetch(
+                'http://localhost:5050/api/search/user?username=' +
+                encodeURIComponent(username)
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+    if (searchType === 'salary') {
+        const min = document.querySelector('#user-search-value1').value.trim();
+        const max = document.querySelector('#user-search-value2').value.trim();
+        const message = document.querySelector('#user-search-message');
+    
+        if (min === '' || max === '' ||
+            !Number.isFinite(Number(min)) ||
+            !Number.isFinite(Number(max)) ||
+            Number(min) > Number(max)) {
+            message.textContent = 'Enter a valid minimum and maximum salary.';
+            return;
+        }
+    
+        try {
+            const params = new URLSearchParams({ min, max });
+    
+            const response = await fetch(
+                'http://localhost:5050/api/search/salary?' + params.toString()
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+    if (searchType === 'age') {
+        const min = document.querySelector('#user-search-value1').value.trim();
+        const max = document.querySelector('#user-search-value2').value.trim();
+        const message = document.querySelector('#user-search-message');
+    
+        if (min === '' || max === '' ||
+            !Number.isInteger(Number(min)) ||
+            !Number.isInteger(Number(max)) ||
+            Number(min) < 0 ||
+            Number(min) > Number(max)) {
+            message.textContent = 'Enter a valid minimum and maximum age.';
+            return;
+        }
+    
+        try {
+            const params = new URLSearchParams({ min, max });
+    
+            const response = await fetch(
+                'http://localhost:5050/api/search/age?' + params.toString()
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+    if (searchType === 'after-john') {
+        const message = document.querySelector('#user-search-message');
+    
+        try {
+            const response = await fetch(
+                'http://localhost:5050/api/search/after-john'
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+    if (searchType === 'never-signed-in') {
+        const message = document.querySelector('#user-search-message');
+    
+        try {
+            const response = await fetch(
+                'http://localhost:5050/api/search/never-signed-in'
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+    if (searchType === 'same-day-john') {
+        const message = document.querySelector('#user-search-message');
+    
+        try {
+            const response = await fetch(
+                'http://localhost:5050/api/search/same-day-john'
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+
+    if (searchType === 'today') {
+        const message = document.querySelector('#user-search-message');
+    
+        try {
+            const response = await fetch(
+                'http://localhost:5050/api/search/today'
+            );
+    
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const users = await response.json();
+            const tableBody = document.querySelector('#user-search-table tbody');
+    
+            tableBody.innerHTML = '';
+    
+            users.forEach(function (user) {
+                const row = tableBody.insertRow();
+    
+                [
+                    user.username,
+                    user.firstname,
+                    user.lastname,
+                    user.salary,
+                    user.age,
+                    user.registerday
+                        ? new Date(user.registerday).toLocaleDateString()
+                        : '',
+                    user.signintime
+                        ? new Date(user.signintime).toLocaleString()
+                        : 'Never'
+                ].forEach(function (value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value ?? '';
+                });
+            });
+    
+            message.textContent = users.length
+                ? users.length + ' user(s) found.'
+                : 'No matching users found.';
+    
+        } catch (error) {
+            console.error(error);
+            message.textContent = 'Unable to search users.';
+        }
+    
+        return;
+    }
+    
+    if (searchType !== 'name') {
+        alert('We will connect the other search options next.');
+        return;
+    }
+
+    const firstname = document.querySelector('#user-search-value1').value.trim();
+    const lastname = document.querySelector('#user-search-value2').value.trim();
+    const message = document.querySelector('#user-search-message');
+
+    if (!firstname && !lastname) {
+        message.textContent = 'Please enter a first name or last name.';
+        return;
+    }
+
+    const params = new URLSearchParams({ firstname, lastname });
+
+    try {
+        const response = await fetch(
+            'http://localhost:5050/api/search/name?' + params.toString()
+        );
+
+        if (!response.ok) {
+            throw new Error('Search failed');
+        }
+
+        const users = await response.json();
+        const tableBody = document.querySelector('#user-search-table tbody');
+
+        tableBody.innerHTML = '';
+
+        users.forEach(function (user) {
+            const row = tableBody.insertRow();
+
+            [
+                user.username,
+                user.firstname,
+                user.lastname,
+                user.salary,
+                user.age,
+                user.registerday
+                    ? new Date(user.registerday).toLocaleDateString()
+                    : '',
+                user.signintime
+                    ? new Date(user.signintime).toLocaleString()
+                    : 'Never'
+            ].forEach(function (value) {
+                const cell = row.insertCell();
+                cell.textContent = value ?? '';
+            });
+        });
+
+        message.textContent = users.length
+            ? users.length + ' user(s) found.'
+            : 'No matching users found.';
+
+    } catch (error) {
+        console.error(error);
+        message.textContent = 'Unable to search users.';
+    }
+});
+
