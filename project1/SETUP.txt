@@ -1,17 +1,26 @@
 
-CSC 4710 - Project Setup Instructions
+CSC 4710 - Database Web Application
+Project Setup Instructions
 
-1. Install and open XAMPP.
-2. Start Apache and MySQL.
-3. Open phpMyAdmin.
-4. Create a database named web_app.
-5. Run the CREATE TABLE statement from sql.txt.
-   If the Users table already exists, compare its
-   columns before making changes.
+1. Install XAMPP and Node.js.
 
-6. Open the Backend folder in VS Code.
+2. Open the XAMPP Control Panel.
+   Start Apache and MySQL.
 
-7. Run:
+3. Open phpMyAdmin:
+   http://localhost/phpmyadmin
+
+4. Open sql.txt and execute the database creation
+   and CREATE TABLE statements in phpMyAdmin.
+   Do not execute the parameterized queries
+   containing ? placeholders directly.
+
+5. Open the project1 folder in VS Code.
+
+6. Open a terminal and navigate to Backend:
+   cd Backend
+
+7. Install dependencies:
    npm install
 
 8. Create a .env file inside Backend with:
@@ -23,18 +32,40 @@ CSC 4710 - Project Setup Instructions
    DB_PORT=3306
    HOST=localhost
 
-   Update these values if your local setup differs.
+   Update the settings for your local environment.
 
 9. Start the backend:
    npm start
 
-10. Open Frontend/register.html to register.
-11. Open Frontend/login.html to log in.
+   The server should run on port 5050.
+
+10. Open Frontend/index.html in a web browser.
+
+11. Use the application to:
+    - Register a new user
+    - Log in with an existing account
+    - Search users using eight search functions
+
+12. The eight search functions are:
+    - Search by first name or last name
+    - Search by username
+    - Search by salary range
+    - Search by age range
+    - Find users registered after John
+    - Find users who have never signed in
+    - Find users registered on the same day as John
+    - Find users registered today
 
 Notes:
 - Passwords are hashed using bcrypt.
-- The database column is password_hash.
+- The password database column is password_hash.
 - Successful login updates signintime.
-- The frontend connects to localhost:5050.
-- Login redirect still needs final testing.
-- Never commit your .env file to GitHub.
+- Database queries use parameterized SQL.
+- The frontend connects to http://localhost:5050.
+- Searches involving John use the username john
+  as the reference account, as required by the assignment.
+- Register a user with username john before testing
+  the "Registered After John" and "Same Day as John" searches.
+- Register additional users before and after John
+  to demonstrate the search results.
+- Never commit the .env file to GitHub.

@@ -34,3 +34,65 @@ WHERE username = ?;
 UPDATE Users
 SET signintime = NOW()
 WHERE username = ?;
+
+-- =====================================
+-- SEARCH QUERIES
+-- =====================================
+
+-- Search 1: Find users by first name or last name
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE firstname = ? OR lastname = ?;
+
+-- Search 2: Find a user by username
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE username = ?;
+
+-- Search 3: Find users within a salary range
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE salary BETWEEN ? AND ?
+ORDER BY salary;
+
+
+-- Search 5: Find users registered after John
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE registerday > (
+    SELECT registerday
+    FROM Users
+    WHERE username = ?
+)
+ORDER BY registerday;
+
+-- Search 6: Find users who have never signed in
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE signintime IS NULL
+ORDER BY username;
+
+-- Search 7: Find users registered on the same day as John
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE DATE(registerday) = (
+    SELECT DATE(registerday)
+    FROM Users
+    WHERE username = ?
+)
+AND username <> ?
+ORDER BY username;
+
+-- Search 8: Find users registered today
+SELECT username, firstname, lastname, salary, age,
+       registerday, signintime
+FROM Users
+WHERE registerday >= CURDATE()
+  AND registerday < CURDATE() + INTERVAL 1 DAY
+ORDER BY username;

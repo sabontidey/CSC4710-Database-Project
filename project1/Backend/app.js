@@ -403,7 +403,7 @@ app.get('/testdb', async (request, response) => {
                  WHERE username = ?
              )
              ORDER BY registerday`,
-            ['testuser3']
+            ['john']
         );
 
         response.json(rows);
@@ -447,7 +447,7 @@ app.get('/testdb', async (request, response) => {
              )
              AND username <> ?
              ORDER BY username`,
-            ['testuser3', 'testuser3']
+            ['john', 'john']
         );
 
         response.json(rows);
